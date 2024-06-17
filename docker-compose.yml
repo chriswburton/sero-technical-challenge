@@ -1,0 +1,10 @@
+services:
+  sero_mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    volumes:
+      - "./.storage/mongo/:/var/lib/mongo/data"
