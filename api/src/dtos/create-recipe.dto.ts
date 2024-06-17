@@ -32,4 +32,8 @@ export class CreateRecipeDto {
   @ValidateNested()
   @Type(() => Measurement)
   measurements: Measurement[];
+
+  @IsString()
+  @Length(1, 30)
+  cookingMethod: string;
 }

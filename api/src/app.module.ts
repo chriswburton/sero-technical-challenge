@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RecipeModule } from './recipes/recipe.module';
+import { RecipesModule } from './recipes/recipes.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { IngredientsModule } from './ingredients/ingredients.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
-    RecipeModule,
+    IngredientsModule,
+    RecipesModule,
   ],
 })
 export class AppModule {}

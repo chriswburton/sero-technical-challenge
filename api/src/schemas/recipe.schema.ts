@@ -12,6 +12,9 @@ export class Recipe {
 
   @Prop()
   measurements: { ingredientId: string; quantity: number; unit: string }[];
+
+  @Prop()
+  cookingMethod: string;
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);

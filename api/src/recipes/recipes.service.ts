@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { CreateRecipeDto } from '../dtos/create-recipe.dto';
 
 @Injectable()
-export class RecipeService {
+export class RecipesService {
   constructor(
     @InjectModel(Recipe.name) private readonly recipeModel: Model<Recipe>,
   ) {}
