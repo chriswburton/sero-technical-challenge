@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { IngredientSchema } from '../src/schemas/ingredient.schema';
-import {RecipeSchema} from "../src/schemas/recipe.schema";
+import { RecipeSchema } from '../src/schemas/recipe.schema';
 
 (async () => {
-  await mongoose.connect(process.env.CONNECTION_STRING);
+  await mongoose.connect(
+    process.env.CONNECTION_STRING || 'mongodb://root:example@localhost:27017',
+  );
 
   // seed some ingredients
   const IngredientModel = mongoose.model('Ingredient', IngredientSchema);
@@ -11,7 +13,10 @@ import {RecipeSchema} from "../src/schemas/recipe.schema";
 
   // vegetables
   await IngredientModel.create({ name: 'Avocado' });
-  await IngredientModel.create({ _id: '66711db434c28262b40aae32', name: 'Broccoli' });
+  await IngredientModel.create({
+    _id: '66711db434c28262b40aae32',
+    name: 'Broccoli',
+  });
   await IngredientModel.create({ name: 'Cucumber' });
   await IngredientModel.create({ name: 'Durian' });
   // meat
@@ -20,7 +25,10 @@ import {RecipeSchema} from "../src/schemas/recipe.schema";
   await IngredientModel.create({ name: 'Prawns' });
   await IngredientModel.create({ name: 'Ham' });
   // carbs
-  await IngredientModel.create({ _id: '66711db434c28262b40aae40', name: 'Rice' });
+  await IngredientModel.create({
+    _id: '66711db434c28262b40aae40',
+    name: 'Rice',
+  });
   await IngredientModel.create({ name: 'Potatoes' });
   await IngredientModel.create({ name: 'Chips' });
   await IngredientModel.create({ name: 'Noodles' });
@@ -41,10 +49,14 @@ import {RecipeSchema} from "../src/schemas/recipe.schema";
     name: `I am a test recipe`,
     ingredients: ['66711db434c28262b40aae32', '66711db434c28262b40aae40'],
     measurements: [
-      { ingredientId: '66711db434c28262b40aae32', quantity: 77, unit: 'florets' },
-      { ingredientId: '66711db434c28262b40aae40', quantity: 32, unit: 'grams' }
+      {
+        ingredientId: '66711db434c28262b40aae32',
+        quantity: 77,
+        unit: 'florets',
+      },
+      { ingredientId: '66711db434c28262b40aae40', quantity: 32, unit: 'grams' },
     ],
-    cookingMethod: 'Test cooking method'
+    cookingMethod: 'Test cooking method',
   });
 
   console.log('Seeding complete');

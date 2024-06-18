@@ -11,7 +11,9 @@ import { IngredientsModule } from './ingredients/ingredients.module';
     }),
     MongooseModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        uri: config.get('CONNECTION_STRING'),
+        uri:
+          config.get('CONNECTION_STRING') ||
+          'mongodb://root:example@localhost:27017',
       }),
       inject: [ConfigService],
     }),
