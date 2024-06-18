@@ -1,15 +1,16 @@
-import { FC } from 'react';
+import { FC, ChangeEvent } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
   testId: string;
   type?: 'text' | 'number';
   label: string;
-  form: UseFormReturn<any>;
-  name: string;
+  form?: UseFormReturn<any>;
+  name?: string;
+  onChange?: (value: string) => void;
 }
 
-export const Input: FC<Props> = ({ testId, type = 'text', label, form, name }) => {
+export const Input: FC<Props> = ({ testId, type = 'text', label, form, name, onChange }) => {
   return (
       <div className={'w-full'}>
         <label
@@ -23,9 +24,12 @@ export const Input: FC<Props> = ({ testId, type = 'text', label, form, name }) =
           id={testId}
           data-testid={testId}
           className="block p-2 border w-full rounded-md border-orange-300 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500"
-          {...form.register(name, {
+          onChange={(event: ChangeEvent) => {
+              onChange?.((event.target as HTMLInputElement).value)}
+          }
+          {...(form && name && form.register(name, {
               valueAsNumber: type === 'number'
-          })}
+          }))}
         />
       </div>
   );

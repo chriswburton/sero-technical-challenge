@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { IngredientSchema } from '../src/schemas/ingredient.schema';
+import {RecipeSchema} from "../src/schemas/recipe.schema";
 
 (async () => {
   await mongoose.connect(process.env.CONNECTION_STRING);
@@ -10,7 +11,7 @@ import { IngredientSchema } from '../src/schemas/ingredient.schema';
 
   // vegetables
   await IngredientModel.create({ name: 'Avocado' });
-  await IngredientModel.create({ name: 'Broccoli' });
+  await IngredientModel.create({ _id: '66711db434c28262b40aae32', name: 'Broccoli' });
   await IngredientModel.create({ name: 'Cucumber' });
   await IngredientModel.create({ name: 'Durian' });
   // meat
@@ -19,7 +20,7 @@ import { IngredientSchema } from '../src/schemas/ingredient.schema';
   await IngredientModel.create({ name: 'Prawns' });
   await IngredientModel.create({ name: 'Ham' });
   // carbs
-  await IngredientModel.create({ name: 'Rice' });
+  await IngredientModel.create({ _id: '66711db434c28262b40aae40', name: 'Rice' });
   await IngredientModel.create({ name: 'Potatoes' });
   await IngredientModel.create({ name: 'Chips' });
   await IngredientModel.create({ name: 'Noodles' });
@@ -31,6 +32,20 @@ import { IngredientSchema } from '../src/schemas/ingredient.schema';
   // other
   await IngredientModel.create({ name: 'Eggs' });
   await IngredientModel.create({ name: 'Cheese' });
+
+  // seed test recipe
+  const RecipeModel = mongoose.model('Recipe', RecipeSchema);
+  await RecipeModel.deleteMany({});
+
+  await RecipeModel.create({
+    name: `I am a test recipe`,
+    ingredients: ['66711db434c28262b40aae32', '66711db434c28262b40aae40'],
+    measurements: [
+      { ingredientId: '66711db434c28262b40aae32', quantity: 77, unit: 'florets' },
+      { ingredientId: '66711db434c28262b40aae40', quantity: 32, unit: 'grams' }
+    ],
+    cookingMethod: 'Test cooking method'
+  });
 
   console.log('Seeding complete');
 })();

@@ -10,6 +10,14 @@ export class RecipesService {
     @InjectModel(Recipe.name) private readonly recipeModel: Model<Recipe>,
   ) {}
 
+  searchRecipes(searchTerms: string): Promise<Recipe[]> {
+    return this.recipeModel
+      .find({
+        name: new RegExp(searchTerms),
+      })
+      .populate('ingredients');
+  }
+
   saveRecipe(recipeData: CreateRecipeDto): Promise<Recipe> {
     return this.recipeModel.create(recipeData);
   }
