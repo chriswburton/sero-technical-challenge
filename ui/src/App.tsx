@@ -12,6 +12,7 @@ function App() {
   const [ingredients, setIngredients] = useState([]);
   const newRecipeForm = useForm<CreateRecipeDto>({
     defaultValues: {
+      ingredients: [],
       measurements: []
     },
     resolver: classValidatorResolver(CreateRecipeDto)
@@ -29,6 +30,12 @@ function App() {
 
   const handleCreateRecipe = async () => {
     const recipeData = newRecipeForm.getValues();
+
+    // populate ingredients array
+    recipeData.ingredients = recipeData.measurements.reduce((acc: string[], { ingredientId }) => {
+      if (acc.includes(ingredientId)) return acc;
+      return [...acc, ingredientId];
+    }, [])
 
     await API.createRecipe(recipeData);
   };

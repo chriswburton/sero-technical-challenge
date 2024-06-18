@@ -29,7 +29,7 @@ export class CreateRecipeDto {
   @IsMongoId({ each: true })
   ingredients: string[];
 
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => Measurement)
   measurements: Measurement[];
 

@@ -2,3 +2,5 @@
 node_modules
 dist
 .idea
+videos
+.DS_Store
