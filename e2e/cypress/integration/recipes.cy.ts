@@ -72,11 +72,21 @@ describe("Recipe tests", () => {
         cy.get('[data-testid=recipeResult0Method]').should("have.text", `Method: Test cooking method`);
     });
 
-    it.skip(`Given I want to look for a recipe by ingredients
+    it(`Given I want to look for a recipe by ingredients
       When I search by the ingredient of the recipe
       Then I find the recipe
       And I can see the ingredients
       And I can see the cooking methods`, () => {
-        expect(true).to.eq(false);
+        cy.visit('http://localhost:3000');
+        cy.get('[data-testid=recipeSearchIngredients]').select('Rice');
+        cy.get('[data-testid=recipeSearchIngredientsSubmit]').click();
+
+        cy.wait(1000);
+
+        // ensure our default test recipe is displayed
+        cy.get('[data-testid=recipeResult0Name]').should("have.text", 'I am a test recipe');
+        cy.get('[data-testid=recipeResult0Ingredient0]').should("have.text", 'Broccoli');
+        cy.get('[data-testid=recipeResult0Ingredient1]').should("have.text", 'Rice');
+        cy.get('[data-testid=recipeResult0Method]').should("have.text", `Method: Test cooking method`);
     });
 });

@@ -18,6 +18,14 @@ export class RecipesService {
       .populate('ingredients');
   }
 
+  searchRecipesByIngredients(ingredientIds: string[]): Promise<Recipe[]> {
+    return this.recipeModel
+      .find({
+        ingredients: { $in: ingredientIds },
+      })
+      .populate('ingredients');
+  }
+
   saveRecipe(recipeData: CreateRecipeDto): Promise<Recipe> {
     return this.recipeModel.create(recipeData);
   }

@@ -8,10 +8,12 @@ import {Measurements} from "./components/Measurements";
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import {CreateRecipeDto} from "./dtos/create-recipe.dto";
 import {Recipe} from "./types";
+import {Select} from "./components/Select";
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
   const [searchTerms, setSearchTerms] = useState('');
+  const [searchIngredients, setSearchIngredients] = useState<string[]>([]);
   const [searchedRecipes, setSearchedRecipes] = useState<Recipe[]>();
   const newRecipeForm = useForm<CreateRecipeDto>({
     defaultValues: {
@@ -36,6 +38,11 @@ function App() {
       setSearchedRecipes(matchingRecipes);
   }
 
+  const handleRecipeSearchByIngredients = async () => {
+    const matchingRecipes = await API.searchRecipesByIngredients(searchIngredients);
+    setSearchedRecipes(matchingRecipes);
+  }
+
   const handleCreateRecipe = async () => {
     const recipeData = newRecipeForm.getValues();
 
@@ -55,6 +62,26 @@ function App() {
           <Input testId={'recipeSearch'} label={'Search existing recipes'} onChange={(value: string) => setSearchTerms(value)} />
           <Button testId={'recipeSearchSubmit'} onClick={handleRecipeSearch}>Search!</Button>
         </div>
+
+        <div className={'flex flex-col space-y-2'}>
+          <p>OR:</p>
+          <Select
+              testId={'recipeSearchIngredients'}
+              label={'Search by ingredients'}
+              options={ingredients.map(({ _id, name }) => ({
+                label: name,
+                value: _id
+              }))}
+              onChange={(ingredientIds: string | string[]) => {
+                if (!Array.isArray(ingredientIds)) return;
+                setSearchIngredients(ingredientIds)
+              }}
+              multiple={true}
+          />
+          {searchIngredients.length > 0 && <Button testId={'recipeSearchIngredientsSubmit'} onClick={handleRecipeSearchByIngredients}>Search by ingredients!</Button>}
+        </div>
+
+        <hr />
 
         {searchedRecipes ? <div>
             {searchedRecipes.map(({ name, ingredients, cookingMethod }, i) => <div key={i} className={'border rounded p-2'}>
